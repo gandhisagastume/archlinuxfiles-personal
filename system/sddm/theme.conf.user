@@ -1,0 +1,74 @@
+[General]
+
+Background="Backgrounds/lock-image.png"
+DimBackgroundImage="0.0"
+ScaleImageCropped="true"
+ScreenWidth="1920"
+ScreenHeight="1080"
+
+
+
+## [Blur Settings]
+
+FullBlur="false"
+PartialBlur="true"
+BlurRadius="12"
+
+
+
+## [Design Customizations]
+
+HaveFormBackground="true"
+FormPosition="center"
+BackgroundImageHAlignment="center"
+BackgroundImageVAlignment="center"
+
+MainColor="white"
+AccentColor="#444444"
+BackgroundColor="#111111"
+OverrideLoginButtonTextColor=""
+InterfaceShadowSize="4"
+InterfaceShadowOpacity="0.2"
+RoundCorners="10"
+ScreenPadding="0"
+Font="JetBrainsMono Nerd Font"
+FontSize="10"
+
+
+
+## [Interface Behavior]
+
+ForceRightToLeft="false"
+ForceLastUser="true"
+ForcePasswordFocus="true"
+ForceHideCompletePassword="false"
+ForceHideVirtualKeyboardButton="true"
+ForceHideSystemButtons="false"
+AllowEmptyPassword="false"
+AllowBadUsernames="false"
+
+
+
+## [Locale Settings]
+
+Locale=""
+HourFormat="HH:mm"
+DateFormat="dddd, d of MMMM"
+
+
+
+## [Translations]
+
+HeaderText="Welcome!"
+TranslatePlaceholderUsername=""
+TranslatePlaceholderPassword=""
+TranslateShowPassword=""
+TranslateLogin=""
+TranslateLoginFailedWarning=""
+TranslateCapslockWarning=""
+TranslateSession=""
+TranslateSuspend=""
+TranslateHibernate=""
+TranslateReboot=""
+TranslateShutdown=""
+TranslateVirtualKeyboardButton=""

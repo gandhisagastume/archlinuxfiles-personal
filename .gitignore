@@ -1,0 +1,78 @@
+# ---- Cache & Runtime ----
+.cache/
+__pycache__/
+*.pyc
+
+# ---- Backup dirs ----
+cfg_backups/
+*_backup/
+*.bak
+*.orig
+
+# ---- Session & Runtime ----
+session/
+pulse/
+dconf/
+procps/
+
+# ---- History ----
+.bash_history
+.viminfo
+*.history
+
+# ---- Editor ----
+*.swp
+*~
+*.swo
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Secrets (NUNCA versionar) ----
+secrets.fish
+*.secret
+
+# ---- Matugen generated files (regenerated per machine) ----
+colors.conf
+colors.css
+colors.rasi
+dunstrc_colors
+hyprlock_colors.conf
+
+# ---- Generated wallpaper links/thumbnails (per machine) ----
+current_wallpaper
+hyprlock_wallpaper.png
+
+# ---- bootstrap temp files ----
+_official.txt
+_aur.txt
+fish_history
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Temporary ----
+/tmp/
+*.tmp
+
+# ---- Package management leftovers ----
+paru/
+yay/
+.go/
+
+# ---- Binary / compiled ----
+*.o
+*.so
+*.a
+node_modules/
+__target__/
+
+# ---- Wallpapers animados OLED Mono (pesados, se copian a mano) ----
+# Ver stow/wallpaper/Wallpapers/README.md  — solo la carpeta canónica, NO los
+# gifs de otros temas de HyDE (esos sí se conservan en git).
+/stow/wallpaper/Wallpapers/*.gif
+
+# vagabond.gif pesa ~199MB (supera límite de GitHub) en cualquier ubicación
+vagabond.gif

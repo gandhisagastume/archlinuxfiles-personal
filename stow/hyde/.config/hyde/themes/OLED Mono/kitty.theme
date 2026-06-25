@@ -1,0 +1,49 @@
+$HOME/.config/kitty/theme.conf|killall -SIGUSR1 kitty
+
+# OLED Mono - Pure Black & White
+
+foreground              #ffffff
+background              #000000
+selection_foreground    #000000
+selection_background    #cccccc
+
+cursor                  #cccccc
+cursor_text_color       #000000
+
+active_tab_foreground     #cccccc
+active_tab_background     #0a0a0a
+inactive_tab_foreground   #555555
+inactive_tab_background   #000000
+tab_bar_background        #000000
+
+# black
+color0      #111111
+color8      #555555
+
+# red
+color1      #ffffff
+color9      #cccccc
+
+# green
+color2      #ffffff
+color10     #aaaaaa
+
+# yellow
+color3      #888888
+color11     #888888
+
+# blue
+color4      #cccccc
+color12     #cccccc
+
+# magenta
+color5      #888888
+color13     #aaaaaa
+
+# cyan
+color6      #aaaaaa
+color14     #aaaaaa
+
+# white
+color7      #ffffff
+color15     #cccccc
