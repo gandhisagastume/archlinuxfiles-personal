@@ -6,6 +6,7 @@ echo "=== $(date) ==="
 WALLPAPER_DIR="$HOME/Wallpapers"
 SYMLINK_PATH="$HOME/.config/hypr/current_wallpaper"
 MATUGEN_CACHE="$HOME/.cache/wallpapers/matugen_temp"
+VERT_CACHE="$HOME/.cache/wallpapers/vertical"
 
 MATUGEN=$(command -v matugen 2>/dev/null)
 if [ -z "$MATUGEN" ]; then
@@ -13,7 +14,7 @@ if [ -z "$MATUGEN" ]; then
     exit 1
 fi
 
-mkdir -p "$MATUGEN_CACHE"
+mkdir -p "$MATUGEN_CACHE" "$VERT_CACHE"
 
 shopt -s nullglob
 wallList=("$WALLPAPER_DIR"/*.gif "$WALLPAPER_DIR"/*.jpg "$WALLPAPER_DIR"/*.png "$WALLPAPER_DIR"/*.jpeg)
@@ -65,7 +66,22 @@ if [ $? -ne 0 ]; then
     sleep 1
 fi
 
-swww img "$SELECTED_PATH" --resize crop --crop-gravity right --transition-type any --transition-fps 60 --transition-duration 0.5 --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo '0,0')" &
+# ── Wallpaper principal (DP-1): animado ──
+swww img "$SELECTED_PATH" --outputs DP-1 --resize crop --transition-type any --transition-fps 60 --transition-duration 0.5 --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo '0,0')" &
+
+# ── Wallpaper vertical (HDMI-A-1): estático pre-recortado (evita artifacts) ──
+VERT_PNG="$VERT_CACHE/${SELECTED_NAME%.*}_vert.png"
+if [[ "$SELECTED_NAME" == *.gif ]]; then
+    if [ ! -f "$VERT_PNG" ] || [ "$SELECTED_PATH" -nt "$VERT_PNG" ]; then
+        magick "$SELECTED_PATH[0]" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null || convert "$SELECTED_PATH[0]" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null
+    fi
+    swww img "$VERT_PNG" --outputs HDMI-A-1 --resize crop --transition-type none 2>/dev/null &
+elif [[ "$SELECTED_NAME" == *.png ]] || [[ "$SELECTED_NAME" == *.jpg ]] || [[ "$SELECTED_NAME" == *.jpeg ]]; then
+    if [ ! -f "$VERT_PNG" ] || [ "$SELECTED_PATH" -nt "$VERT_PNG" ]; then
+        magick "$SELECTED_PATH" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null || convert "$SELECTED_PATH" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null
+    fi
+    swww img "$VERT_PNG" --outputs HDMI-A-1 --resize crop --transition-type none 2>/dev/null &
+fi
 
 HYPLOCK_WALL="$HOME/.config/hypr/hyprlock_wallpaper.png"
 
