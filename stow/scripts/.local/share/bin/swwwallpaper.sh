@@ -112,23 +112,9 @@ fi
 #// apply wallpaper
 
 echo ":: applying wall :: \"$(readlink -f "${wallSet}")\""
-WALL_IMG="$(readlink "${wallSet}")"
-WALL_NAME="$(basename "$WALL_IMG")"
-VERT_CACHE="$HOME/.cache/wallpapers/vertical"
-mkdir -p "$VERT_CACHE"
 
 # ── Principal (DP-1): animado ──
-swww img "$WALL_IMG" --outputs DP-1 --resize crop --transition-bezier .43,1.19,1,.4 --transition-type "${xtrans}" --transition-duration "${wallTransDuration}" --transition-fps "${wallFramerate}" --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo "0,0")" &
+swww img "$(readlink "${wallSet}")" --outputs DP-1 --resize crop --transition-bezier .43,1.19,1,.4 --transition-type "${xtrans}" --transition-duration "${wallTransDuration}" --transition-fps "${wallFramerate}" --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo "0,0")" &
 
-# ── Vertical (HDMI-A-1): estático pre-recortado ──
-VERT_PNG="$VERT_CACHE/${WALL_NAME%.*}_vert.png"
-if [[ "$WALL_NAME" == *.gif ]]; then
-    if [ ! -f "$VERT_PNG" ] || [ "$WALL_IMG" -nt "$VERT_PNG" ]; then
-        magick "$WALL_IMG[0]" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null || convert "$WALL_IMG[0]" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null
-    fi
-elif [[ "$WALL_NAME" == *.png ]] || [[ "$WALL_NAME" == *.jpg ]] || [[ "$WALL_NAME" == *.jpeg ]]; then
-    if [ ! -f "$VERT_PNG" ] || [ "$WALL_IMG" -nt "$VERT_PNG" ]; then
-        magick "$WALL_IMG" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null || convert "$WALL_IMG" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null
-    fi
-fi
-[ -f "$VERT_PNG" ] && swww img "$VERT_PNG" --outputs HDMI-A-1 --resize crop --transition-type none 2>/dev/null &
+# ── Vertical (HDMI-A-1): animado optimizado ──
+swww img "$(readlink "${wallSet}")" --outputs HDMI-A-1 --resize crop --filter Nearest --transition-type none 2>/dev/null &

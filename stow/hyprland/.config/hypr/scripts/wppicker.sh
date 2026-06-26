@@ -55,20 +55,8 @@ fi
 # ── Wallpaper principal (DP-1): animado ──
 swww img "$SELECTED_PATH" --outputs DP-1 --resize crop --transition-type any --transition-fps 60 --transition-duration 0.5 --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo '0,0')" &
 
-# ── Wallpaper vertical (HDMI-A-1): estático pre-recortado ──
-VERT_CACHE="$HOME/.cache/wallpapers/vertical"
-mkdir -p "$VERT_CACHE"
-VERT_PNG="$VERT_CACHE/${SELECTED_WALL%.*}_vert.png"
-if [[ "$SELECTED_WALL" == *.gif ]]; then
-    if [ ! -f "$VERT_PNG" ] || [ "$SELECTED_PATH" -nt "$VERT_PNG" ]; then
-        magick "$SELECTED_PATH[0]" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null || convert "$SELECTED_PATH[0]" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null
-    fi
-elif [[ "$SELECTED_WALL" == *.png ]] || [[ "$SELECTED_WALL" == *.jpg ]] || [[ "$SELECTED_WALL" == *.jpeg ]]; then
-    if [ ! -f "$VERT_PNG" ] || [ "$SELECTED_PATH" -nt "$VERT_PNG" ]; then
-        magick "$SELECTED_PATH" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null || convert "$SELECTED_PATH" -resize x1680 -gravity east -crop 1050x1680+0+0 +repage -depth 8 "$VERT_PNG" 2>/dev/null
-    fi
-fi
-[ -f "$VERT_PNG" ] && swww img "$VERT_PNG" --outputs HDMI-A-1 --resize crop --transition-type none 2>/dev/null &
+# ── Wallpaper vertical (HDMI-A-1): animado optimizado ──
+swww img "$SELECTED_PATH" --outputs HDMI-A-1 --resize crop --filter Nearest --transition-type none 2>/dev/null &
 
 HYPLOCK_WALL="$HOME/.config/hypr/hyprlock_wallpaper.png"
 
