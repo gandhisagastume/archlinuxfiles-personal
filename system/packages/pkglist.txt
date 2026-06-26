@@ -81,7 +81,7 @@ qt5-quickcontrols2
 qt5-wayland
 qt6ct
 qt6-wayland
-rofi
+rofi-wayland
 rofi-calc
 rofi-emoji
 sddm
