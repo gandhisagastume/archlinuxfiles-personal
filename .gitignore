@@ -46,6 +46,29 @@ hyprlock_wallpaper.png
 wall.set
 nvidia.conf
 
+# ---- VS Code runtime cache (generated via symlinks) ----
+stow/code/.config/Code - OSS/Cache/
+stow/code/.config/Code - OSS/CachedData/
+stow/code/.config/Code - OSS/CachedProfilesData/
+stow/code/.config/Code - OSS/Code Cache/
+stow/code/.config/Code - OSS/Crashpad/
+stow/code/.config/Code - OSS/DawnGraphiteCache/
+stow/code/.config/Code - OSS/DawnWebGPUCache/
+stow/code/.config/Code - OSS/Dictionaries/
+stow/code/.config/Code - OSS/GPUCache/
+stow/code/.config/Code - OSS/Local State
+stow/code/.config/Code - OSS/Local Storage/
+stow/code/.config/Code - OSS/Network Persistent State
+stow/code/.config/Code - OSS/Preferences
+stow/code/.config/Code - OSS/Session Storage/
+stow/code/.config/Code - OSS/Shared Dictionary/
+stow/code/.config/Code - OSS/Trust Tokens*
+stow/code/.config/Code - OSS/User/globalStorage/
+stow/code/.config/Code - OSS/User/workspaceStorage/
+stow/code/.config/Code - OSS/languagepacks.json
+stow/code/.config/Code - OSS/machineid
+stow/code/.config/Code - OSS/DIPS
+
 # ---- bootstrap temp files ----
 _official.txt
 _aur.txt
