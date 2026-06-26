@@ -1,0 +1,219 @@
+#!/usr/bin/env bash
+#
+# dotfiles — helper para operaciones comunes con los dotfiles
+#
+# Subcomandos:
+#   status         - estado de git y symlinks
+#   pull           - actualizar desde remoto y reaplicar
+#   push           - commit + push
+#   restow [pkg]   - reaplicar stow (uno o todos)
+#   unlink [pkg]   - eliminar symlinks
+#   diff           - ver diferencias entre dotfiles y sistema
+#   backup         - respaldar cambios del sistema al repo
+#   logs           - ver log de git
+#   help           - mostrar ayuda
+#
+# Uso:
+#   ./dotfiles status
+#   ./dotfiles restow hyprland
+#   ./dotfiles push "Fix: ajuste de monitor"
+
+set -eo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+STOW_DIR="$DOTFILES_DIR/stow"
+SYSTEM_DIR="$HOME"
+
+# Colores
+if [ -t 1 ]; then
+    R=$'\033[0;31m' G=$'\033[0;32m' Y=$'\033[1;33m'
+    C=$'\033[0;36m' B=$'\033[1m' N=$'\033[0m'
+else
+    R='' G='' Y='' C='' B='' N=''
+fi
+
+log()   { printf "${G}[+]${N} %s\n" "$*"; }
+warn()  { printf "${Y}[!]${N} %s\n" "$*"; }
+err()   { printf "${R}[x]${N} %s\n" "$*" >&2; }
+header() { printf "\n${B}${C}━━━ %s ━━━${N}\n" "$*"; }
+
+# ┌────────────────────────────────────────────────────────┐
+# │ SUBCOMANDOS                                              │
+# └────────────────────────────────────────────────────────┘
+
+cmd_status() {
+    header "Git status"
+    (cd "$DOTFILES_DIR" && git status --short)
+    echo ""
+    header "Symlinks stow"
+    for link in "$HOME/.config/hypr" "$HOME/.config/waybar" "$HOME/.config/rofi" \
+                "$HOME/.config/kitty" "$HOME/.config/dunst" "$HOME/.config/hyde" \
+                "$HOME/.local/share/bin" "$HOME/Wallpapers" "$HOME/.themes" \
+                "$HOME/.icons" "$HOME/terminalphoto"; do
+        if [ -L "$link" ]; then
+            target=$(readlink -f "$link")
+            if [[ "$target" == "$DOTFILES_DIR"* ]]; then
+                printf "  ${G}OK${N}  %s → %s\n" "$link" "$target"
+            else
+                printf "  ${Y}WARN${N}  %s → %s (externo)\n" "$link" "$target"
+            fi
+        elif [ -d "$link" ]; then
+            printf "  ${Y}LOCAL${N}  %s (no es symlink)\n" "$link"
+        else
+            printf "  ${R}MISSING${N}  %s\n" "$link"
+        fi
+    done
+}
+
+cmd_pull() {
+    header "Pull + restow"
+    (cd "$DOTFILES_DIR" && git pull --rebase origin main) || err "Pull falló"
+    cd "$STOW_DIR"
+    for pkg in */; do
+        pkg="${pkg%/}"
+        [ -d "$pkg" ] && stow --target="$HOME" --restow "$pkg" 2>/dev/null
+    done
+    log "Stow reaplicado"
+}
+
+cmd_push() {
+    local msg="${1:-Update dotfiles}"
+    header "Git add + commit + push"
+    (cd "$DOTFILES_DIR" && git add -A)
+    if (cd "$DOTFILES_DIR" && git diff --cached --quiet); then
+        warn "Sin cambios para commitear"
+    else
+        (cd "$DOTFILES_DIR" && git commit -m "$msg") || err "Commit falló"
+        (cd "$DOTFILES_DIR" && git push origin main) || err "Push falló (¿token?)"
+        log "Pusheado"
+    fi
+}
+
+cmd_restow() {
+    local pkg="${1:-}"
+    cd "$STOW_DIR"
+    if [ -n "$pkg" ]; then
+        [ -d "$pkg" ] || { err "Paquete '$pkg' no existe"; exit 1; }
+        stow --target="$HOME" --restow "$pkg"
+        log "Restow: $pkg"
+    else
+        for p in */; do
+            p="${p%/}"
+            [ -d "$p" ] && stow --target="$HOME" --restow "$p" 2>/dev/null && printf "  ${G}OK${N}  %s\n" "$p"
+        done
+        log "Todos los paquetes restow"
+    fi
+}
+
+cmd_unlink() {
+    local pkg="${1:?Uso: dotfiles unlink <paquete>}"
+    cd "$STOW_DIR"
+    [ -d "$pkg" ] || { err "Paquete '$pkg' no existe"; exit 1; }
+    stow --target="$HOME" --delete "$pkg"
+    log "Unlink: $pkg"
+}
+
+cmd_diff() {
+    header "Diff dotfiles vs sistema"
+    local found=0
+    for pkg in */; do
+        pkg="${pkg%/}"
+        [ -d "$pkg" ] || continue
+        (cd "$pkg" && find . -type f 2>/dev/null) | while IFS= read -r f; do
+            local dotf="$pkg/$f"
+            # Construir path del sistema: quitar "./" inicial
+            local relpath="${f#./}"
+            local sysf="$HOME/$relpath"
+            if [ -f "$sysf" ] || [ -L "$sysf" ]; then
+                if ! diff -q "$dotf" "$sysf" &>/dev/null; then
+                    found=$((found + 1))
+                    if [ "$found" -le 30 ]; then
+                        printf "  ${Y}DIFERENTE${N}  %s\n" "$relpath"
+                    fi
+                fi
+            else
+                if [ "$found" -le 30 ]; then
+                    printf "  ${R}FALTA${N}      %s\n" "$relpath"
+                fi
+                found=$((found + 1))
+            fi
+        done
+    done
+    if [ "$found" -eq 0 ]; then
+        log "Todo sincronizado ✓"
+    else
+        warn "$found diferencias encontradas (mostrando primeras 30)"
+    fi
+}
+
+cmd_backup() {
+    header "Backup: sistema → dotfiles"
+    warn "Esto sobreescribe configs del repo con los del sistema."
+    warn "Úsalo cuando modificas configs en $HOME y quieres guardarlos en git."
+    read -p "¿Continuar? [s/N] " -n 1 -r
+    echo
+    [[ ! $REPLY =~ ^[Ss]$ ]] && { warn "Cancelado"; exit 0; }
+
+    for pkg in */; do
+        pkg="${pkg%/}"
+        [ -d "$pkg" ] || continue
+        for f in $(cd "$pkg" && find . -type f 2>/dev/null); do
+            local dotf="$pkg/$f"
+            local sysf="$HOME/${f#./}"
+            if [ -f "$sysf" ] && ! diff -q "$dotf" "$sysf" &>/dev/null; then
+                cp -L "$sysf" "$dotf"
+                printf "  ${G}UPD${N}  %s\n" "$f"
+            fi
+        done
+    done
+    log "Backup completo. Ahora ejecuta: ./dotfiles push \"<mensaje>\""
+}
+
+cmd_logs() {
+    (cd "$DOTFILES_DIR" && git log --oneline -20 --graph --decorate)
+}
+
+cmd_help() {
+    cat <<'EOF'
+dotfiles — helper para operaciones comunes
+
+Uso: ./dotfiles <subcomando> [args]
+
+Subcomandos:
+  status                Estado de git y symlinks
+  pull                  Pull desde remoto + reaplicar stow
+  push "mensaje"        Commit + push (mensaje opcional, default: "Update dotfiles")
+  restow [paquete]      Reaplicar stow (un paquete o todos)
+  unlink <paquete>      Eliminar symlinks de un paquete
+  diff                  Mostrar diferencias entre dotfiles y sistema
+  backup                Respaldar cambios del sistema al repo
+  logs                  Ver log de git
+  help                  Mostrar esta ayuda
+
+Ejemplos:
+  ./dotfiles status
+  ./dotfiles restow hyprland
+  ./dotfiles push "Fix: NVIDIA env vars"
+  ./dotfiles diff
+EOF
+}
+
+# ┌────────────────────────────────────────────────────────┐
+# │ MAIN                                                     │
+# └────────────────────────────────────────────────────────┘
+
+subcommand="${1:-help}"
+shift || true
+
+case "$subcommand" in
+    status)  cmd_status "$@" ;;
+    pull)    cmd_pull "$@" ;;
+    push)    cmd_push "$@" ;;
+    restow)  cmd_restow "$@" ;;
+    unlink)  cmd_unlink "$@" ;;
+    diff)    cmd_diff "$@" ;;
+    backup)  cmd_backup "$@" ;;
+    logs)    cmd_logs "$@" ;;
+    help|--help|-h) cmd_help ;;
+    *)       err "Subcomando desconocido: $subcommand"; cmd_help; exit 1 ;;
+esac

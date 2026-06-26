@@ -1,52 +1,54 @@
-# ---- Cache & Runtime ----
+# .gitignore para archlinuxfiles-personal
+# Este archivo previene que archivos generados/runtime/máquina-específicos
+# se suban al repo.
+
+# ┌────────────────────────────────────────────────────────────┐
+# │ CACHE & RUNTIME                                            │
+# └────────────────────────────────────────────────────────────┘
 .cache/
 __pycache__/
 *.pyc
+*.pyo
+.python-version
 
-# ---- Backup dirs ----
+# ┌────────────────────────────────────────────────────────────┐
+# │ BACKUPS & LOCK                                             │
+# └────────────────────────────────────────────────────────────┘
 cfg_backups/
 *_backup/
+*_bak/
 *.bak
 *.orig
+*.lock
+*.swp
+*.swo
+*~
 
-# ---- Session & Runtime ----
+# ┌────────────────────────────────────────────────────────────┐
+# │ SESSION & RUNTIME                                          │
+# └────────────────────────────────────────────────────────────┘
 session/
 pulse/
 dconf/
 procps/
+.Trash-*/
 
-# ---- History ----
+# ┌────────────────────────────────────────────────────────────┐
+# │ HISTORY                                                     │
+# └────────────────────────────────────────────────────────────┘
 .bash_history
 .viminfo
+.history
 *.history
+fish_history
+python_history
+lesshst
+viminfo
 
-# ---- Editor ----
-*.swp
-*~
-*.swo
-
-# ---- OS ----
-.DS_Store
-Thumbs.db
-
-# ---- Secrets (NUNCA versionar) ----
-secrets.fish
-*.secret
-
-# ---- Matugen generated files (regenerated per machine) ----
-colors.conf
-colors.css
-colors.rasi
-dunstrc_colors
-hyprlock_colors.conf
-
-# ---- Generated wallpaper links/thumbnails (per machine) ----
-current_wallpaper
-hyprlock_wallpaper.png
-wall.set
-nvidia.conf
-
-# ---- VS Code runtime cache (generated via symlinks) ----
+# ┌────────────────────────────────────────────────────────────┐
+# │ EDITORES / IDEs                                            │
+# └────────────────────────────────────────────────────────────┘
+# VS Code / Code OSS
 stow/code/.config/Code - OSS/Cache/
 stow/code/.config/Code - OSS/CachedData/
 stow/code/.config/Code - OSS/CachedProfilesData/
@@ -65,39 +67,101 @@ stow/code/.config/Code - OSS/Shared Dictionary/
 stow/code/.config/Code - OSS/Trust Tokens*
 stow/code/.config/Code - OSS/User/globalStorage/
 stow/code/.config/Code - OSS/User/workspaceStorage/
+stow/code/.config/Code - OSS/User/History/
 stow/code/.config/Code - OSS/languagepacks.json
 stow/code/.config/Code - OSS/machineid
 stow/code/.config/Code - OSS/DIPS
 
-# ---- bootstrap temp files ----
-_official.txt
-_aur.txt
-fish_history
+# ┌────────────────────────────────────────────────────────────┐
+# │ SECRETS — NUNCA VERSIONAR                                  │
+# └────────────────────────────────────────────────────────────┘
+secrets.fish
+*.secret
+*.key
+*.pem
+.env
+.envrc
+*.gpg
 
-# ---- Logs ----
+# ┌────────────────────────────────────────────────────────────┐
+# │ MATUGEN (regenerado por máquina)                          │
+# └────────────────────────────────────────────────────────────┘
+colors.conf
+colors.css
+colors.rasi
+dunstrc_colors
+hyprlock_colors.conf
+hyprland_colors.conf
+kitty-colors.conf
+gtk-colors.css
+fastfetch-config.jsonc
+dunst-colors
+rofi-colors.rasi
+
+# ┌────────────────────────────────────────────────────────────┐
+# │ WALLPAPER GENERATED (por máquina)                         │
+# └────────────────────────────────────────────────────────────┘
+current_wallpaper
+hyprlock_wallpaper.png
+wall.set
+nvidia.conf
+.cache/wall.thmb
+.cache/wall.blur
+
+# ┌────────────────────────────────────────────────────────────┐
+# │ OS & TEMPORALES                                            │
+# └────────────────────────────────────────────────────────────┘
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
 *.log
 logs/
-
-# ---- Temporary ----
 /tmp/
-*.tmp
+*.swp
 
-# ---- Package management leftovers ----
+# ┌────────────────────────────────────────────────────────────┐
+# │ BOOTSTRAP TEMP FILES                                       │
+# └────────────────────────────────────────────────────────────┘
+_official.txt
+_aur.txt
+bootstrap.log
+
+# ┌────────────────────────────────────────────────────────────┐
+# │ PACKAGE MANAGEMENT                                         │
+# └────────────────────────────────────────────────────────────┘
 paru/
 yay/
 .go/
+*.pkg.tar.zst
 
-# ---- Binary / compiled ----
+# ┌────────────────────────────────────────────────────────────┐
+# │ BINARIOS / COMPILADOS                                      │
+# └────────────────────────────────────────────────────────────┘
 *.o
 *.so
 *.a
+*.so.*
 node_modules/
+__pycache__/
 __target__/
+target/
 
-# ---- Wallpapers animados OLED Mono (pesados, se copian a mano) ----
-# Ver stow/wallpaper/Wallpapers/README.md  — solo la carpeta canónica, NO los
-# gifs de otros temas de HyDE (esos sí se conservan en git).
-/stow/wallpaper/Wallpapers/*.gif
-
-# vagabond.gif pesa ~199MB (supera límite de GitHub) en cualquier ubicación
+# ┌────────────────────────────────────────────────────────────┐
+# │ ARCHIVOS GRANDES (excede límite GitHub 100MB)              │
+# └────────────────────────────────────────────────────────────┘
+# vagabond.gif = 199MB (excede 100MB de GitHub)
 vagabond.gif
+# GIFs del wallpaper canónico (grandes, se copian manualmente)
+/stow/wallpaper/Wallpapers/*.gif
+*.gif.lfs
+
+# ┌────────────────────────────────────────────────────────────┐
+# │ OTROS                                                      │
+# └────────────────────────────────────────────────────────────┘
+*.pid
+*.sock
+*.socket
+nohup.out
+core.*
+core
