@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
-# Launcher script for rofi with rounded-nord-dark theme
-# Used for app launcher (Super + A)
+# Launcher script for rofi (app launcher - Super + A)
+# Uses the HyDE custom rofi style with full theming
 
-rofi -show drun -show-icons -theme rounded-nord-dark
+scrDir="$(dirname "$(realpath "$0")")"
+"${scrDir}/rofilaunch.sh" d

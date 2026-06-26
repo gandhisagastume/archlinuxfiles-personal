@@ -18,8 +18,10 @@ icon_border=$(( elem_border - 5 ))
 
 #// scale for monitor
 
-mon_x_res=$(hyprctl -j monitors | jq '.[] | select(.focused==true) | .width')
-mon_scale=$(hyprctl -j monitors | jq '.[] | select(.focused==true) | .scale' | sed "s/\.//")
+mon_x_res=$(hyprctl -j monitors 2>/dev/null | jq '.[] | select(.focused==true) | .width' 2>/dev/null)
+mon_scale=$(hyprctl -j monitors 2>/dev/null | jq '.[] | select(.focused==true) | .scale' 2>/dev/null | sed "s/\.//")
+[ -z "${mon_x_res}" ] || [ "${mon_x_res}" = "null" ] && mon_x_res=1920
+[ -z "${mon_scale}" ] || [ "${mon_scale}" = "null" ] || [ "${mon_scale}" = "0" ] && mon_scale=10
 mon_x_res=$(( mon_x_res * 100 / mon_scale ))
 
 

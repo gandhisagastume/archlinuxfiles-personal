@@ -31,6 +31,8 @@ esac
 
 #// set overrides
 
+[ -z "${hypr_border}" ] && hypr_border=3
+[ -z "${hypr_width}" ] && hypr_width=1
 wind_border=$(( hypr_border * 3 ))
 [ "${hypr_border}" -eq 0 ] && elem_border="10" || elem_border=$(( hypr_border * 2 ))
 r_override="window {border: ${hypr_width}px; border-radius: ${wind_border}px;} element {border-radius: ${elem_border}px;}"

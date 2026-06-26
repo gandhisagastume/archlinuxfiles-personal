@@ -22,11 +22,11 @@ abbr .5 'cd ../../../../..'
 abbr mkdir 'mkdir -p'
 
 # ---- Claude Code ----
-fish_add_path /home/sagas/.local/bin
+fish_add_path $HOME/.local/bin
 
 # Secrets locales (NO versionados). Copia secrets.fish.example -> secrets.fish
 # y pon ahí tus claves. Ver secrets.fish.example
 test -f ~/.config/fish/secrets.fish && source ~/.config/fish/secrets.fish
 
 # ---- Node.js ----
-fish_add_path /home/sagas/.local/nodejs/bin
+fish_add_path $HOME/.local/nodejs/bin

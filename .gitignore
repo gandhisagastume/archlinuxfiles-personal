@@ -43,6 +43,8 @@ hyprlock_colors.conf
 # ---- Generated wallpaper links/thumbnails (per machine) ----
 current_wallpaper
 hyprlock_wallpaper.png
+wall.set
+nvidia.conf
 
 # ---- bootstrap temp files ----
 _official.txt

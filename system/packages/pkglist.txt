@@ -3,7 +3,7 @@
 # Los drivers NVIDIA se instalan aparte (install_nvidia_drivers) si se detecta GPU.
 
 ark
-awww
+bibata-cursor-theme
 base
 base-devel
 blueman
@@ -36,9 +36,11 @@ hyde-cli-git
 hypridle
 hyprland
 hyprlock
+hyprpicker
 imagemagick
 intel-media-driver
 intel-ucode
+jq
 kde-cli-tools
 kitty
 kvantum
@@ -89,13 +91,16 @@ smartmontools
 sof-firmware
 sudo
 swaylock-effects-git
-tela-circle-icon-theme-pink
+swww
+tela-circle-icon-theme-git
 timeshift
 tlp
 tlp-rdw
 tlpui
 ttf-montserrat
 ttf-roboto
+ttf-jetbrains-mono-nerd
+ttf-cascadia-code-nerd
 udiskie
 ufw
 unzip

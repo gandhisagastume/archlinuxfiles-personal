@@ -106,8 +106,12 @@ export enableWallDcol
 #// hypr vars
 
 if printenv HYPRLAND_INSTANCE_SIGNATURE &> /dev/null; then
-    export hypr_border="$(hyprctl -j getoption decoration:rounding | jq '.int')"
-    export hypr_width="$(hyprctl -j getoption general:border_size | jq '.int')"
+    export hypr_border="$(hyprctl -j getoption decoration:rounding 2>/dev/null | jq '.int' 2>/dev/null)"
+    export hypr_width="$(hyprctl -j getoption general:border_size 2>/dev/null | jq '.int' 2>/dev/null)"
+    [ "${hypr_border}" = "null" ] && hypr_border="3"
+    [ "${hypr_width}" = "null" ] && hypr_width="1"
+    [ -z "${hypr_border}" ] && hypr_border="3"
+    [ -z "${hypr_width}" ] && hypr_width="1"
 fi
 
 

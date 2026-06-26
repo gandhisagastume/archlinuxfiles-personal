@@ -113,7 +113,7 @@
         "rotate": 0,
         "separate-outputs": true,
         "rewrite": {
-            "(.*)sagas@archlinux:(.*)": "$1  :$2",
+            "(.*)@.*:(.*)": "$1  :$2",
             "(.*) — Mozilla Firefox": "$1 󰈹",
             "(.*)Mozilla Firefox": "$1 Firefox 󰈹",
             "(.*) - Visual Studio Code": "$1 󰨞",
@@ -129,10 +129,10 @@
     },
 
     "backlight": {
-        "device": "intel_backlight",
+        "device": "",
         "rotate": 0,
         "format": "{icon} {percent}%",
-        "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "format-icons": ["", "", "", "", "", "", "", "", ""],
         "on-scroll-up": "brightnesscontrol.sh i 1",
         "on-scroll-down": "brightnesscontrol.sh d 1",
         "min-length": 6
