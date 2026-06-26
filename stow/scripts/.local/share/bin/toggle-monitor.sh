@@ -53,7 +53,7 @@ if [ -z "$MIRRORED" ]; then
     [ -z "$SEC_RES" ] && SEC_RES="1680x1050@60"
 
     echo "mirrored" > "$STATE"
-    echo "monitor=$SEC,$SEC_RES,0x0,1,transform,3" >> "$STATE"
+    echo "monitor=$SEC,$SEC_RES,0x0,1,transform,1" >> "$STATE"
 
     hyprctl keyword monitor "$SEC,preferred,auto,1,mirror,$MAIN" 2>>"$LOG"
     notify-send -a "Monitor" "Toggle Monitor" "Modo ESPEJO — secundario duplica al principal" -t 2000 -i display
@@ -66,7 +66,7 @@ else
         hyprctl keyword monitor "$SEC_CFG" 2>>"$LOG"
     else
         # Sin estado guardado: restaurar a defaults
-        hyprctl keyword monitor "$SEC,1680x1050@60,0x0,1,transform,3" 2>>"$LOG"
+        hyprctl keyword monitor "$SEC,1680x1050@60,0x0,1,transform,1" 2>>"$LOG"
     fi
     echo "extended" > "$STATE"
 
