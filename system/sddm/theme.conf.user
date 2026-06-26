@@ -59,7 +59,7 @@ DateFormat="dddd, d of MMMM"
 
 ## [Translations]
 
-HeaderText="Welcome!"
+HeaderText="ようこそ"
 TranslatePlaceholderUsername=""
 TranslatePlaceholderPassword=""
 TranslateShowPassword=""

@@ -37,7 +37,7 @@ fi
 if [ ! -f "$THEME_DIR/Main.qml" ]; then
     echo "  AUR didn't work. Installing manually from git..."
     TMPDIR=$(mktemp -d)
-    git clone https://www.opencode.net/marianarlt/sddm-sugar-candy.git "$TMPDIR/sugar-candy"
+    git clone https://github.com/Kangie/sddm-sugar-candy.git "$TMPDIR/sugar-candy"
     sudo mkdir -p "$THEME_DIR"
     (cd "$TMPDIR/sugar-candy" && sudo find . -type f -print0 | while IFS= read -r -d '' f; do
         dest="${f#./}"

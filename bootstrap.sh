@@ -226,13 +226,21 @@ setup_sddm() {
     sudo mkdir -p /etc/sddm.conf.d
     sudo cp "$sddm_src/sddm.conf.d-10-oled-mono.conf" /etc/sddm.conf.d/10-oled-mono.conf
 
+    log "Applying SDDM customizations (animated GIF + Japanese clock)..."
+    if [ -f "$sddm_src/animated-fix.sh" ]; then
+        bash "$sddm_src/animated-fix.sh" 2>/dev/null || warn "animated-fix.sh failed"
+    fi
+    if [ -f "$sddm_src/japanese-clock.sh" ]; then
+        bash "$sddm_src/japanese-clock.sh" 2>/dev/null || warn "japanese-clock.sh failed"
+    fi
+
     CURR_DM=$(basename "$(readlink -f /etc/systemd/system/display-manager.service 2>/dev/null)" .service 2>/dev/null || true)
     if [ -n "$CURR_DM" ] && [ "$CURR_DM" != "sddm" ]; then
         sudo systemctl disable "$CURR_DM" 2>/dev/null || true
     fi
     sudo systemctl enable sddm 2>/dev/null || true
 
-    log "SDDM configured with OLED Mono theme."
+    log "SDDM configured with OLED Mono theme (animated + ようこそ)."
 }
 
 generate_colors() {
