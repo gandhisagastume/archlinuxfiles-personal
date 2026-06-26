@@ -111,6 +111,8 @@ waybar
 wget
 wireplumber
 wlogout
+wl-clipboard
+cliphist
 wofi
 wpa_supplicant
 xdg-desktop-portal-hyprland

@@ -1,0 +1,125 @@
+// Rofi config for cliphist (clipboard history)
+// Used by cliphist.sh - simpler layout than style_1
+
+configuration {
+    modi:                        "drun";
+    show-icons:                  false;
+    drun-display-format:         "{name}";
+    font:                        "JetBrainsMono Nerd Font 10";
+    icon-theme:                  "Tela-circle-grey";
+}
+
+@theme "~/.config/rofi/theme.rasi"
+
+// Main window
+window {
+    location:                    north;
+    y-offset:                    0;
+    width:                       50em;
+    transparency:                "real";
+    fullscreen:                  false;
+    enabled:                     true;
+    cursor:                      "default";
+    spacing:                     0em;
+    padding:                     1.2em;
+    border-color:                @main-br;
+    background-color:            @main-bg;
+    border:                      2px;
+    border-radius:               12px;
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     0.5em;
+    padding:                     0em;
+    children:                    [ "inputbar", "listview" ];
+    background-color:            transparent;
+}
+
+// Input bar (search)
+inputbar {
+    enabled:                     true;
+    spacing:                     0.5em;
+    padding:                     0.8em 1em;
+    background-color:            @main-ex;
+    text-color:                  @main-fg;
+    border-radius:               8px;
+    children:                    [ "prompt", "entry" ];
+}
+prompt {
+    text-color:                  @main-fg;
+    background-color:            transparent;
+    padding:                     0em 0.5em 0em 0em;
+    expand:                      false;
+}
+entry {
+    placeholder:                 "Search clipboard...";
+    placeholder-color:           @main-br;
+    background-color:            transparent;
+    text-color:                  @main-fg;
+    cursor:                      text;
+    expand:                      true;
+}
+
+// List
+listview {
+    enabled:                     true;
+    lines:                       8;
+    spacing:                     0.2em;
+    padding:                     0em;
+    columns:                     1;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    cursor:                      "default";
+    background-color:            transparent;
+    text-color:                  @main-fg;
+}
+
+// Elements
+element {
+    enabled:                     true;
+    spacing:                     0.5em;
+    padding:                     0.6em 1em;
+    cursor:                      pointer;
+    background-color:            transparent;
+    text-color:                  @main-fg;
+    border-radius:               6px;
+}
+element selected.normal {
+    background-color:            @select-bg;
+    text-color:                  @select-fg;
+}
+element-icon {
+    size:                        1.2em;
+    cursor:                      inherit;
+    background-color:            transparent;
+    text-color:                  inherit;
+}
+element-text {
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+    cursor:                      inherit;
+    background-color:            transparent;
+    text-color:                  inherit;
+    placeholder:                 "Search clipboard...";
+    placeholder-color:           @main-br;
+}
+
+// Error
+error-message {
+    text-color:                  @main-fg;
+    background-color:            @main-bg;
+    text-transform:              capitalize;
+    children:                    [ "textbox" ];
+}
+textbox {
+    text-color:                  inherit;
+    background-color:            inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
