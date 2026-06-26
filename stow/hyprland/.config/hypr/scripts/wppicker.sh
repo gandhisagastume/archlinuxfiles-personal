@@ -52,7 +52,7 @@ if [ $? -ne 0 ]; then
     sleep 1
 fi
 
-swww img "$SELECTED_PATH" --transition-type any --transition-fps 60 --transition-duration 0.5 --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo '0,0')" &
+swww img "$SELECTED_PATH" --resize crop --crop-gravity right --transition-type any --transition-fps 60 --transition-duration 0.5 --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo '0,0')" &
 
 HYPLOCK_WALL="$HOME/.config/hypr/hyprlock_wallpaper.png"
 

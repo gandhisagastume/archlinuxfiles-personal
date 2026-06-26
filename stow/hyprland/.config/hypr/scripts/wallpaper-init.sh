@@ -18,7 +18,7 @@ HYPLOCK_WALL="$HOME/.config/hypr/hyprlock_wallpaper.png"
 if [ -L "$SYMLINK_PATH" ] && [ -e "$SYMLINK_PATH" ]; then
     WALL="$(readlink -f "$SYMLINK_PATH")"
     WALL_NAME="$(basename "$WALL")"
-    swww img "$WALL" --transition-type grow --transition-duration 0.5 --transition-fps 60 --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo '0,0')" &
+    swww img "$WALL" --resize crop --crop-gravity right --transition-type grow --transition-duration 0.5 --transition-fps 60 --invert-y --transition-pos "$(hyprctl cursorpos | grep -E '^[0-9]' || echo '0,0')" &
     if [ -n "$MATUGEN" ]; then
         if [[ "$WALL_NAME" == *.gif ]]; then
             TEMP_PNG="$MATUGEN_CACHE/${WALL_NAME%.*}.png"
@@ -40,7 +40,7 @@ else
     if [ -n "$FIRST_WALL" ]; then
         WALL_NAME="$(basename "$FIRST_WALL")"
         ln -sf "$FIRST_WALL" "$SYMLINK_PATH"
-        swww img "$FIRST_WALL" --transition-type grow --transition-duration 0.5 --transition-fps 60 --invert-y &
+        swww img "$FIRST_WALL" --resize crop --crop-gravity right --transition-type grow --transition-duration 0.5 --transition-fps 60 --invert-y &
         if [ -n "$MATUGEN" ]; then
             if [[ "$WALL_NAME" == *.gif ]]; then
                 TEMP_PNG="$MATUGEN_CACHE/${WALL_NAME%.*}.png"

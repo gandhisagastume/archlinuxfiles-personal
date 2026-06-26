@@ -53,7 +53,7 @@ if [ -z "$SECONDARY_DETECTED" ] && [ "$STATE_MODE" = "mirrored" ]; then
 
     sleep 0.5
     WALLPAPER=$(readlink -f "$HOME/.config/hypr/current_wallpaper" 2>/dev/null)
-    [ -f "$WALLPAPER" ] && swww img "$WALLPAPER" --transition-type none 2>>"$LOG" &
+    [ -f "$WALLPAPER" ] && swww img "$WALLPAPER" --resize crop --crop-gravity right --transition-type none 2>>"$LOG" &
 
     notify-send -a "Monitor" "Toggle Monitor" "Modo EXTENDIDO" -t 2000 -i display
 
