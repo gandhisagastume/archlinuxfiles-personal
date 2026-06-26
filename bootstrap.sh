@@ -185,7 +185,7 @@ run_stow() {
         hyprland hyde waybar rofi dunst kitty fish starship
         fastfetch wlogout swaylock btop cava matugen foot
         fuzzel qt gtk scripts themes wallpaper home
-        code networkmanager swappy
+        code networkmanager swappy terminalphoto
     )
 
     for pkg in "${packages[@]}"; do
@@ -281,6 +281,7 @@ final_message() {
     echo ""
     echo -e "  5. Si los iconos/cursor fallan, instala:"
     echo -e "     ${CYAN}\$AUR_HELPER -S tela-circle-icon-theme-git bibata-cursor-theme${NC}"
+    echo -e "  6. fastfetch necesita kitty para los logos: ${CYAN}pacman -S kitty imagemagick${NC}"
     echo ""
     echo -e "  ${GREEN}¡Disfruta tu setup!${NC}"
     echo ""
